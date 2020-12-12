@@ -1,0 +1,9 @@
+# Compiled files
+*.tfstate
+*.tfstate.backup
+
+.idea
+.terraform
+
+*.iml
+*.hcl
