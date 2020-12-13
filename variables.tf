@@ -44,7 +44,7 @@ variable "repo_owner" {
 
 variable "repo_name" {
   type    = string
-  default = "wh-questions-game"
+  default = "react-codebuild"
 }
 
 variable "repo_branch" {
@@ -62,12 +62,24 @@ variable "poll_source_changes" {
 
 variable "image_repo_name" {
   type        = string
-  default     = "image-repo-tf-ecs-continuous-deployment"
+  default     = "tf-ecs-continuous-deployment"
   description = "ECR repository name to store the Docker image built by this module. Used as CodeBuild ENV variable when building Docker images. [For more info](http://docs.aws.amazon.com/codebuild/latest/userguide/sample-docker.html)"
 }
 
-variable "image_tag" {
+variable "aws_account_id" {
   type        = string
-  default     = "latest"
-  description = "Docker image tag in the ECR repository, e.g. 'latest'. Used as CodeBuild ENV variable when building Docker images. [For more info](http://docs.aws.amazon.com/codebuild/latest/userguide/sample-docker.html)"
+  default     = ""
+  description = "AWS Account ID. Used as CodeBuild ENV variable when building Docker images. [For more info](http://docs.aws.amazon.com/codebuild/latest/userguide/sample-docker.html)"
+}
+
+variable "build_image" {
+  type        = string
+  default     = "aws/codebuild/standard:4.0"
+  description = "Docker image for build environment, _e.g._ `aws/codebuild/docker:docker:17.09.0`"
+}
+
+variable "build_compute_type" {
+  type        = string
+  default     = "BUILD_GENERAL1_SMALL"
+  description = "`CodeBuild` instance size. Possible values are: `BUILD_GENERAL1_SMALL` `BUILD_GENERAL1_MEDIUM` `BUILD_GENERAL1_LARGE`"
 }

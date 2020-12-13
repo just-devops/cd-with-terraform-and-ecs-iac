@@ -1,88 +1,41 @@
-resource "aws_iam_role" "codepipeline_role" {
-  name = "${var.project_name}_codepipeline_role"
-
-  assume_role_policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Principal": {
-        "Service": "codepipeline.amazonaws.com"
-      },
-      "Action": "sts:AssumeRole"
-    }
-  ]
-}
-EOF
-}
-
-resource "aws_iam_role_policy" "codepipeline_policy" {
-  name = "${var.project_name}_codepipeline_policy"
-  role = aws_iam_role.codepipeline_role.id
-
-  policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect":"Allow",
-      "Action": [
-        "s3:GetObject",
-        "s3:GetObjectVersion",
-        "s3:GetBucketVersioning",
-        "s3:PutObject"
-      ],
-      "Resource": [
-        "${aws_s3_bucket.default.arn}",
-        "${aws_s3_bucket.default.arn}/*"
-      ]
-    },
-    {
-      "Effect": "Allow",
-      "Action": [
-        "codebuild:BatchGetBuilds",
-        "codebuild:StartBuild"
-      ],
-      "Resource": "*"
-    }
-  ]
-}
-EOF
-}
-
-resource "aws_s3_bucket" "default" {
-  bucket = "${var.project_name_for_aws}-codepipeline-bucket"
-  acl    = "private"
+resource "aws_s3_bucket" "default_s3_bucket" {
+  bucket        = "${var.project_name_for_aws}-codepipeline-bucket"
+  acl           = "private"
   force_destroy = true
 
 }
 
 module "codebuild" {
-  source          = "git::https://github.com/cloudposse/terraform-aws-codebuild.git?ref=tags/0.26.0"
-  namespace       = "webapp"
-  stage           = "test"
-  name            = "${var.project_name}_codebuild"
-  privileged_mode = false
-  aws_region      = var.aws_region
-  image_repo_name = var.image_repo_name
-  image_tag       = var.image_tag
-  github_token    = var.github_access_token
-
-  # https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-available.html
-  build_image        = "aws/codebuild/standard:4.0"
-  build_compute_type = "BUILD_GENERAL1_SMALL"
+  source             = "git::https://github.com/cloudposse/terraform-aws-codebuild.git?ref=tags/0.26.0"
+  namespace          = "webapp"
+  stage              = "test"
+  name               = "${var.project_name}_codebuild"
+  privileged_mode    = true
+  aws_region         = var.aws_region
+  image_repo_name    = var.image_repo_name
+  github_token       = var.github_access_token
+  aws_account_id     = var.aws_account_id
+  build_image        = var.build_image
+  build_compute_type = var.build_compute_type
   build_timeout      = 60
 }
 
 resource "aws_codepipeline" "tf_aws_pipeline" {
   name     = "tf_aws_pipeline"
-  role_arn = aws_iam_role.codepipeline_role.arn
+  role_arn = aws_iam_role.codepipeline_iam_role.arn
 
   artifact_store {
-    location = aws_s3_bucket.default.bucket
+    location = aws_s3_bucket.default_s3_bucket.bucket
     type     = "S3"
   }
+
+  depends_on = [
+    aws_iam_role_policy_attachment.codebuild_iam_role_policy,
+    aws_iam_role_policy_attachment.codebuild_s3_iam_role_policy,
+    aws_iam_role_policy_attachment.codepipeline_default_iam_role_policy,
+    aws_iam_role_policy_attachment.s3_iam_role_policy,
+  ]
+
 
   stage {
     name = "SourceCode"
