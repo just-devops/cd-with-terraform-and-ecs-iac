@@ -5,6 +5,16 @@ resource "aws_s3_bucket" "default_s3_bucket" {
 
 }
 
+data "aws_secretsmanager_secret_version" "creds" {
+  # Fill in the name you gave to your secret
+  secret_id = "dockerhub"
+}
+
+data "aws_secretsmanager_secret_version" "github_access_token" {
+  # Fill in the name you gave to your secret
+  secret_id = "github_token"
+}
+
 module "codebuild" {
   source             = "git::https://github.com/cloudposse/terraform-aws-codebuild.git?ref=tags/0.26.0"
   namespace          = "webapp"

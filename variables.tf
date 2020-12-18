@@ -39,7 +39,7 @@ variable "github_access_token" {
 
 variable "repo_owner" {
   type    = string
-  default = "paschalidi"
+  default = "just-devops"
 }
 
 variable "github_organisation" {
