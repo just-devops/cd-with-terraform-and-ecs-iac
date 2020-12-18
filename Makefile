@@ -57,3 +57,5 @@ destroy:
 	$(call terraform,.,destroy,-auto-approve)
 
 main: tf_format tf_validate tf_plan apply
+
+reset: destroy tf_format tf_validate tf_plan apply main

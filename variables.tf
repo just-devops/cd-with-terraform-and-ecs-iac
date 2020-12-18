@@ -42,6 +42,11 @@ variable "repo_owner" {
   default = "paschalidi"
 }
 
+variable "github_organisation" {
+  type    = string
+  default = "just-devops"
+}
+
 variable "repo_name" {
   type    = string
   default = "react-codebuild"
@@ -62,8 +67,26 @@ variable "poll_source_changes" {
 
 variable "image_repo_name" {
   type        = string
-  default     = "tf-ecs-continuous-deployment"
+  default     = "react-webapp"
   description = "ECR repository name to store the Docker image built by this module. Used as CodeBuild ENV variable when building Docker images. [For more info](http://docs.aws.amazon.com/codebuild/latest/userguide/sample-docker.html)"
+}
+
+variable "image_tag_mutability" {
+  description = "The tag mutability setting for the repository.Must be one of MUTABLE or IMMUTABLE."
+  type        = string
+  default     = "MUTABLE"
+}
+
+variable "keep_tagged_last_n_images" {
+  description = "Keeps only n number of images in the repository."
+  type        = number
+  default     = 30
+}
+
+variable "expire_untagged_older_than_n_days" {
+  description = "Deletes untagged images older than n days."
+  type        = number
+  default     = 15
 }
 
 variable "aws_account_id" {
