@@ -34,7 +34,7 @@ variable "project_name_for_aws" {
 
 variable "github_access_token" {
   type    = string
-  default = "8eca665407425cd5d0aed0a10962d1354c30ee1a"
+  default = "85b0e61f1dc6b8abd570d5796c30c09a3c5afcd0"
 }
 
 variable "repo_owner" {
