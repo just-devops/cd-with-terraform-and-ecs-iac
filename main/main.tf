@@ -3,8 +3,8 @@ terraform {
   backend "s3" {
     region  = "us-east-1"
     profile = "aws-devops"
-    key     = "tf-fargate-ecs-continuous-deployment"
-    bucket  = "tf-fargate-ecs-continuous-deployment"
+    key     = "tf-ecs-continuous-deployment"
+    bucket  = "tf-ecs-continuous-deployment"
   }
 }
 
