@@ -1,25 +1,26 @@
-provider "aws" {
-  region = "us-east-1"
+variable "aws_region" {
+  type        = string
+  description = "your preferred aws region"
 }
 
 variable "profile" {
-  type    = string
-  default = "default"
+  type        = string
+  description = "your aws profile"
 }
 
-variable "ssh_key_private" {
-  type    = string
-  default = "~/.ssh/id_rsa"
+variable "github_access_token" {
+  type        = string
+  description = "the token"
 }
 
-variable "ssh_key_public" {
-  type    = string
-  default = "~/.ssh/id_rsa.pub"
+variable "repo_owner" {
+  type        = string
+  description = "your github organisation"
 }
 
-variable "aws_region" {
-  type    = string
-  default = "us-east-1"
+variable "repo_name" {
+  type        = string
+  description = "your github repo"
 }
 
 variable "project_name" {
@@ -30,26 +31,6 @@ variable "project_name" {
 variable "project_name_for_aws" {
   type    = string
   default = "tf-ecs-continuous-deployment"
-}
-
-variable "github_access_token" {
-  type    = string
-  default = "85b0e61f1dc6b8abd570d5796c30c09a3c5afcd0"
-}
-
-variable "repo_owner" {
-  type    = string
-  default = "just-devops"
-}
-
-variable "github_organisation" {
-  type    = string
-  default = "just-devops"
-}
-
-variable "repo_name" {
-  type    = string
-  default = "react-codebuild"
 }
 
 variable "repo_branch" {

@@ -1,3 +1,10 @@
+terraform {
+  # This module is now only being tested with Terraform 0.13.x. However, to make upgrading easier, we are setting
+  # 0.12.26 as the minimum version, as that version added support for required_providers with source URLs, making it
+  # forwards compatible with 0.13.x code.
+  required_version = ">= 0.14"
+}
+
 resource "aws_s3_bucket" "default_s3_bucket" {
   bucket        = "${var.project_name_for_aws}-codepipeline-bucket"
   acl           = "private"
