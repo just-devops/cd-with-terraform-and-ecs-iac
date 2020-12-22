@@ -1,4 +1,5 @@
-// CODEPIPELINE POLICY
+#### CODEPIPELINE POLICY
+
 resource "aws_iam_role" "codepipeline_iam_role" {
   name               = "${var.project_name}_codepipeline_role"
   assume_role_policy = data.aws_iam_policy_document.codepipeline_assume_role.json
@@ -57,7 +58,7 @@ resource "aws_iam_role_policy_attachment" "codepipeline_default_iam_role_policy"
   policy_arn = join("", aws_iam_policy.codepipeline_default_iam_policy.*.arn)
 }
 
-// S3 POLICY
+#### S3 POLICY
 
 // policy definition
 resource "aws_iam_policy" "s3_iam_policy" {
@@ -65,7 +66,7 @@ resource "aws_iam_policy" "s3_iam_policy" {
   policy = join("", data.aws_iam_policy_document.s3_iam_policy_document.*.json)
 }
 
-//policy description
+// policy description
 data "aws_iam_policy_document" "s3_iam_policy_document" {
   statement {
     sid = ""
@@ -93,7 +94,8 @@ resource "aws_iam_role_policy_attachment" "s3_iam_role_policy" {
 }
 
 
-// CODEBUILD POLICY
+####  CODEBUILD POLICY
+
 // policy description
 resource "aws_iam_policy" "codebuild" {
   name   = "codebuild_label"

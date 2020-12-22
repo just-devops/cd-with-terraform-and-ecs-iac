@@ -1,4 +1,3 @@
-
 resource "random_string" "webhook_secret" {
   length = 32
 

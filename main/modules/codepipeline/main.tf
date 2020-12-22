@@ -25,7 +25,7 @@ module "codebuild" {
   build_image        = var.build_image
   build_compute_type = var.build_compute_type
   build_timeout      = 60
-  extra_permissions  = ["ecr:BatchGetImage"]
+  extra_permissions  = ["ecr:BatchGetImage", "s3:GetObject"]
 }
 
 resource "aws_codepipeline" "tf_aws_pipeline" {
@@ -54,7 +54,7 @@ resource "aws_codepipeline" "tf_aws_pipeline" {
       owner            = "ThirdParty"
       provider         = "GitHub"
       version          = "1"
-      output_artifacts = ["source_code_output"]
+      output_artifacts = ["source_code"]
 
       configuration = {
         OAuthToken           = var.github_access_token
@@ -76,11 +76,30 @@ resource "aws_codepipeline" "tf_aws_pipeline" {
       provider = "CodeBuild"
       version  = "1"
 
-      input_artifacts  = ["source_code_output"]
-      output_artifacts = ["task"]
+      input_artifacts  = ["source_code"]
+      output_artifacts = ["image_definitions"]
 
       configuration = {
         ProjectName = module.codebuild.project_name
+      }
+    }
+  }
+
+  stage {
+    name = "Production"
+
+    action {
+      name            = "Deploy"
+      category        = "Deploy"
+      owner           = "AWS"
+      provider        = "ECS"
+      input_artifacts = ["image_definitions"]
+      version         = "1"
+
+      configuration = {
+        ClusterName = var.cluster_name
+        ServiceName = var.app_service_name
+        FileName    = "imagedefinitions.json"
       }
     }
   }

@@ -1,3 +1,5 @@
+#### REQUIRED
+
 variable "aws_region" {
   type        = string
   description = "your preferred aws region"
@@ -23,6 +25,18 @@ variable "repo_name" {
   description = "your github repo"
 }
 
+variable "cluster_name" {
+  type        = string
+  description = "your ecs cluster name"
+}
+
+variable "app_service_name" {
+  type        = string
+  description = "your ecs service name"
+}
+
+#### REST
+
 variable "project_name" {
   type    = string
   default = "tf_ecs_continuous_deployment"
@@ -37,6 +51,7 @@ variable "repo_branch" {
   type    = string
   default = "master"
 }
+
 
 # https://www.terraform.io/docs/configuration/variables.html
 # It is recommended you avoid using boolean values and use explicit strings

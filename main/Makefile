@@ -46,7 +46,7 @@ tf_validate:
 	$(call terraform,.,validate)
 
 tf_plan:
-	$(call terraform,.,plan,-out=tf-plan.dot)
+	$(call terraform,.,plan,-out=current-tf-plan.dot)
 
 plan: tf_format tf_validate tf_plan
 
