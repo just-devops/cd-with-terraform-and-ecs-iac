@@ -9,3 +9,5 @@
 *.hcl
 
 /main/current-tf-plan.dot
+
+crash.log
