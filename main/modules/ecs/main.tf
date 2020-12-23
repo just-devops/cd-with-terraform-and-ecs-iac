@@ -15,7 +15,7 @@ resource "aws_ecs_cluster" "dev_to" {
 }
 
 resource "aws_ecs_task_definition" "dev_to" {
-  family                = "${var.cluster_name}_app"
+  family                = var.cluster_name
   container_definitions = <<TASK_DEFINITION
   [
   {
@@ -36,7 +36,7 @@ resource "aws_ecs_task_definition" "dev_to" {
     "memory": 1024,
     "image": "dockersamples/static-site",
     "essential": true,
-    "name": "site"
+    "name": "${var.cluster_name}"
   }
 ]
 TASK_DEFINITION
@@ -76,7 +76,7 @@ resource "aws_ecs_service" "dev_to" {
 
   load_balancer {
     target_group_arn = var.ecs_target_group.arn
-    container_name   = "site"
+    container_name   = var.cluster_name
     container_port   = 80
   }
 }

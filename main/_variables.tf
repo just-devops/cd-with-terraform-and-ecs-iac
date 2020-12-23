@@ -18,6 +18,18 @@ variable "cluster_name" {
   default     = "web-app"
 }
 
+#### ECS
+
+variable "container_name" {
+  type    = string
+  default = "web-app"
+}
+
+variable "image_repo_name" {
+  type    = string
+  default = "web-app"
+}
+
 #### CODEPIPELINE
 
 variable "repo_owner" {
@@ -37,14 +49,3 @@ variable "access_token" {
   default = "d742f10cbda6a9b528649a99ba0ba186311751a7"
 }
 
-#### ECS-DYNAMIC
-
-variable "container_name" {
-  type    = string
-  default = "react-nginx-container"
-}
-
-variable "image_repo_name" {
-  type    = string
-  default = "react-nginx"
-}
