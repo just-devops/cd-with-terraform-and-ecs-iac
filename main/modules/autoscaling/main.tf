@@ -7,7 +7,7 @@ resource "aws_appautoscaling_target" "dev_to_target" {
 }
 
 resource "aws_appautoscaling_policy" "dev_to_memory" {
-  name               = "dev-to-memory"
+  name               = "fargate-pipeline-memory"
   policy_type        = "TargetTrackingScaling"
   resource_id        = aws_appautoscaling_target.dev_to_target.resource_id
   scalable_dimension = aws_appautoscaling_target.dev_to_target.scalable_dimension
@@ -23,7 +23,7 @@ resource "aws_appautoscaling_policy" "dev_to_memory" {
 }
 
 resource "aws_appautoscaling_policy" "dev_to_cpu" {
-  name               = "dev-to-cpu"
+  name               = "fargate-pipeline-cpu"
   policy_type        = "TargetTrackingScaling"
   resource_id        = aws_appautoscaling_target.dev_to_target.resource_id
   scalable_dimension = aws_appautoscaling_target.dev_to_target.scalable_dimension

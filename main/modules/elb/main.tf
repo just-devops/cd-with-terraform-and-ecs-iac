@@ -2,11 +2,11 @@ resource "aws_lb" "elb" {
   name               = "dev-to"
   internal           = false
   load_balancer_type = "application"
-  security_groups    = [var.load_balancer_sg.id]
+  security_groups    = [var.load_balancer_sg]
   subnets = [
-    var.load_balancer_subnet_a.id,
-    var.load_balancer_subnet_b.id,
-    var.load_balancer_subnet_c.id
+    var.load_balancer_subnet_a,
+    var.load_balancer_subnet_b,
+    var.load_balancer_subnet_c
   ]
 
   tags = {

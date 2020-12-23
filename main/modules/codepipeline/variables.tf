@@ -63,7 +63,6 @@ variable "poll_source_changes" {
 
 variable "image_repo_name" {
   type        = string
-  default     = "react-webapp"
   description = "ECR repository name to store the Docker image built by this module. Used as CodeBuild ENV variable when building Docker images. [For more info](http://docs.aws.amazon.com/codebuild/latest/userguide/sample-docker.html)"
 }
 
