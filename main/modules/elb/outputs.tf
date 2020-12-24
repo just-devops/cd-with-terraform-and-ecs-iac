@@ -1,4 +1,4 @@
-output "elb_name" {
+output "elb" {
   value = aws_lb.elb
 }
 
@@ -8,4 +8,8 @@ output "elb_dns" {
 
 output "ecs_target_group" {
   value = aws_lb_target_group.ecs
+}
+
+output "ecs_role" {
+  value = aws_iam_role.ecs_service
 }

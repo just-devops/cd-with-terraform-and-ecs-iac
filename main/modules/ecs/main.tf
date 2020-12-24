@@ -8,21 +8,30 @@ resource "aws_ecs_cluster" "dev_to" {
   }
 
   tags = {
-    Name    = "dev-to"
-    Project = "dev-to"
-    Billing = "dev-to"
+    Name = "dev-to"
   }
 }
 
 resource "aws_ecs_task_definition" "dev_to" {
   family                = var.cluster_name
   container_definitions = <<TASK_DEFINITION
-[
+  [
   {
-    "environment": [ { "name": "AUTHOR", "value": "Christos Paschalidis" } ],
-    "portMappings": [ { "hostPort": 80, "protocol": "tcp", "containerPort": 80 } ],
-    "cpu": "${var.desired_task_cpu}",
-    "memory": "${var.desired_task_memory}",
+    "portMappings": [
+      {
+        "hostPort": 80,
+        "protocol": "tcp",
+        "containerPort": 80
+      }
+    ],
+    "environment": [
+      {
+        "name": "AUTHOR",
+        "value": "Christos Paschalidis"
+      }
+    ],
+    "cpu": 512,
+    "memory": 1024,
     "essential": true,
     "image": "${var.image_latest}",
     "name": "${var.cluster_name}"
@@ -38,9 +47,7 @@ TASK_DEFINITION
   task_role_arn            = var.ecs_role.arn
 
   tags = {
-    Name    = "dev-to"
-    Project = "dev-to"
-    Billing = "dev-to"
+    Name = "dev-to"
   }
 }
 

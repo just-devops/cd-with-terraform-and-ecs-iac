@@ -28,18 +28,13 @@ module "elb" {
   load_balancer_subnet_c = module.vpc.load_balancer_subnet_c_id
 }
 
-module "iam" {
-  source = "./modules/elb-iam"
-  elb    = module.elb.elb_name
-}
-
 module "ecs" {
   source           = "./modules/ecs"
-  ecs_role         = module.iam.ecs_role
   ecs_sg_id        = module.vpc.ecs_sg_id
   ecs_subnet_a     = module.vpc.ecs_subnet_a
   ecs_subnet_b     = module.vpc.ecs_subnet_b
   ecs_subnet_c     = module.vpc.ecs_subnet_c
+  ecs_role         = module.elb.ecs_role
   ecs_target_group = module.elb.ecs_target_group
   image_latest     = module.codepipeline.image_latest
 

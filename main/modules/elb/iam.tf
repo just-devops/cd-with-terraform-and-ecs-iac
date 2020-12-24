@@ -41,9 +41,7 @@ data "aws_iam_policy_document" "ecs_service_elb" {
       "elasticloadbalancing:RegisterTargets"
     ]
 
-    resources = [
-      var.elb.arn
-    ]
+    resources = [aws_lb.elb.arn]
   }
 }
 
