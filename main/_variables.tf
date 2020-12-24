@@ -46,6 +46,6 @@ variable "repo_name" {
 
 variable "access_token" {
   type    = string
-  default = "d742f10cbda6a9b528649a99ba0ba186311751a7"
+  default = "49832e06e1f98321b525cab50576a51aec37b393"
 }
 

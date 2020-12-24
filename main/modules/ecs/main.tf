@@ -17,25 +17,14 @@ resource "aws_ecs_cluster" "dev_to" {
 resource "aws_ecs_task_definition" "dev_to" {
   family                = var.cluster_name
   container_definitions = <<TASK_DEFINITION
-  [
+[
   {
-    "portMappings": [
-      {
-        "hostPort": 80,
-        "protocol": "tcp",
-        "containerPort": 80
-      }
-    ],
-    "cpu": 512,
-    "environment": [
-      {
-        "name": "AUTHOR",
-        "value": "Kieran"
-      }
-    ],
-    "memory": 1024,
-    "image": "dockersamples/static-site",
+    "environment": [ { "name": "AUTHOR", "value": "Christos Paschalidis" } ],
+    "portMappings": [ { "hostPort": 80, "protocol": "tcp", "containerPort": 80 } ],
+    "cpu": "${var.desired_task_cpu}",
+    "memory": "${var.desired_task_memory}",
     "essential": true,
+    "image": "${var.image_latest}",
     "name": "${var.cluster_name}"
   }
 ]
@@ -43,8 +32,8 @@ TASK_DEFINITION
 
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
-  memory                   = "1024"
-  cpu                      = "512"
+  memory                   = var.desired_task_memory
+  cpu                      = var.desired_task_cpu
   execution_role_arn       = var.ecs_role.arn
   task_role_arn            = var.ecs_role.arn
 

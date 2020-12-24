@@ -55,7 +55,9 @@ module "ecs" {
   ecs_subnet_b     = module.vpc.ecs_subnet_b
   ecs_subnet_c     = module.vpc.ecs_subnet_c
   ecs_target_group = module.elb.ecs_target_group
+  image_latest     = module.codepipeline.image_latest
 
+  aws_region          = var.aws_region
   cluster_name        = var.cluster_name
   container_name      = var.container_name
   image_repo_name     = var.image_repo_name
@@ -68,6 +70,8 @@ module "auto_scaling" {
   source      = "./modules/autoscaling"
   ecs_cluster = module.ecs.ecs_cluster
   ecs_service = module.ecs.ecs_service
+  min_tasks   = 1
+  max_tasks   = 2
 }
 
 module "codepipeline" {
