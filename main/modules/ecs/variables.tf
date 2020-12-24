@@ -21,3 +21,7 @@ variable "image_repo_name" {}
 variable "container_port" {}
 
 variable "cluster_name" {}
+
+variable "aws_region" {}
+
+variable "image_latest" {}
