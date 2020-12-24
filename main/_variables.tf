@@ -41,11 +41,3 @@ variable "repo_name" {
   type    = string
   default = "react-codebuild"
 }
-
-#### TO REMOVE
-
-variable "access_token" {
-  type    = string
-  default = "49832e06e1f98321b525cab50576a51aec37b393"
-}
-

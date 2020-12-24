@@ -12,20 +12,6 @@ provider "aws" {
   region = var.aws_region
 }
 
-#### SSM
-
-data "aws_secretsmanager_secret" "by-arn" {
-  arn = "arn:aws:secretsmanager:us-east-1:043372837203:secret:tf_gh_token-v8tQ4j"
-}
-
-data "aws_secretsmanager_secret_version" "creds" {
-  secret_id = data.aws_secretsmanager_secret.by-arn.id
-}
-
-locals {
-  github_token = jsondecode(data.aws_secretsmanager_secret_version.creds.secret_string)["token"]
-}
-
 #### VPC
 
 module "vpc" {
@@ -74,13 +60,27 @@ module "auto_scaling" {
   max_tasks   = 2
 }
 
+#### SSM
+
+data "aws_secretsmanager_secret" "by-arn" {
+  arn = "arn:aws:secretsmanager:us-east-1:043372837203:secret:token-V3MnT4"
+}
+
+data "aws_secretsmanager_secret_version" "creds" {
+  secret_id = data.aws_secretsmanager_secret.by-arn.id
+}
+
+locals {
+  github_token = jsondecode(data.aws_secretsmanager_secret_version.creds.secret_string)["github_secret_token"]
+}
+
 module "codepipeline" {
   source              = "./modules/codepipeline"
   app_service_name    = module.ecs.ecs_service_name
   profile             = var.profile
   aws_region          = var.aws_region
   repo_owner          = var.repo_owner
-  github_access_token = var.access_token
+  github_access_token = local.github_token
   repo_name           = var.repo_name
   cluster_name        = var.cluster_name
   image_repo_name     = var.image_repo_name
