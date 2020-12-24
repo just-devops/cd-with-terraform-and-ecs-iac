@@ -34,7 +34,6 @@ module "ecs" {
   ecs_subnet_a     = module.vpc.ecs_subnet_a
   ecs_subnet_b     = module.vpc.ecs_subnet_b
   ecs_subnet_c     = module.vpc.ecs_subnet_c
-  ecs_role         = module.elb.ecs_role
   ecs_target_group = module.elb.ecs_target_group
   image_latest     = module.codepipeline.image_latest
 

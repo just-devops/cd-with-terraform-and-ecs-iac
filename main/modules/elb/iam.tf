@@ -1,22 +1,3 @@
-resource "aws_iam_role" "ecs_service" {
-  name = "ecs-service"
-
-  assume_role_policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Action": "sts:AssumeRole",
-      "Principal": {
-        "Service": "ecs-tasks.amazonaws.com"
-      },
-      "Effect": "Allow"
-    }
-  ]
-}
-EOF
-}
-
 data "aws_iam_policy_document" "ecs_service_elb" {
   statement {
     effect = "Allow"
@@ -125,19 +106,4 @@ resource "aws_iam_policy" "ecs_service_scaling" {
   description = "Allow ecs service scaling"
 
   policy = data.aws_iam_policy_document.ecs_service_scaling.json
-}
-
-resource "aws_iam_role_policy_attachment" "ecs_service_elb" {
-  role       = aws_iam_role.ecs_service.name
-  policy_arn = aws_iam_policy.ecs_service_elb.arn
-}
-
-resource "aws_iam_role_policy_attachment" "ecs_service_standard" {
-  role       = aws_iam_role.ecs_service.name
-  policy_arn = aws_iam_policy.ecs_service_standard.arn
-}
-
-resource "aws_iam_role_policy_attachment" "ecs_service_scaling" {
-  role       = aws_iam_role.ecs_service.name
-  policy_arn = aws_iam_policy.ecs_service_scaling.arn
 }

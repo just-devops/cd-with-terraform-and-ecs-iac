@@ -43,8 +43,8 @@ TASK_DEFINITION
   requires_compatibilities = ["FARGATE"]
   memory                   = var.desired_task_memory
   cpu                      = var.desired_task_cpu
-  execution_role_arn       = var.ecs_role.arn
-  task_role_arn            = var.ecs_role.arn
+  execution_role_arn       = aws_iam_role.ecs_execution_role.arn
+  task_role_arn            = aws_iam_role.ecs_execution_role.arn
 
   tags = {
     Name = "dev-to"

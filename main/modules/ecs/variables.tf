@@ -8,8 +8,6 @@ variable "ecs_subnet_c" {}
 
 variable "ecs_sg_id" {}
 
-variable "ecs_role" {}
-
 variable "desired_task_memory" {}
 
 variable "desired_task_cpu" {}
